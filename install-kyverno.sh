@@ -5,7 +5,7 @@ helm repo update
 
 helm install kyverno kyverno/kyverno -n kyverno --create-namespace
 
-helm install kyverno-policies kyverno/kyverno-policies -n kyverno
+# helm install kyverno-policies kyverno/kyverno-policies -n kyverno
 
 # Install step CLI to check and verify certificate details.
 # https://kyverno.io/docs/installation/customization/#default-certificates
