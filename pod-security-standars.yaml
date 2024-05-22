@@ -1,0 +1,31 @@
+### Coming in Kyverno 1.12
+### https://kyverno.io/blog/2024/02/04/securing-services-meshes-easier-with-kyverno/
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: pod-security-standards
+spec:
+  background: true
+  validationFailureAction: Enforce
+  rules:
+    - name: baseline-service-mesh
+      match:
+        any:
+          - resources:
+            kinds:
+              - Pod
+            namespaces:
+              - default
+      validate:
+        podSecurity:
+          level: baseline
+          version: latest
+          exclude:
+            - controlName: Capabilities
+              images:
+                - "*/istio/proxyv2*"
+                - "*/linkerd/proxy-init*"
+              restrictedField: spec.initContainers[*].securityContext.capabilities.add
+              values:
+                - NET_ADMIN
+                - NET_RAW
